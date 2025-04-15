@@ -35,7 +35,7 @@ def add_note(message: str) -> str:
     return "Note not saved!"
 
 
-@mcp.resource("note://all")
+@mcp.tool()  #resource("note://all")
 def read_all_notes() -> str:
     """This function reads all the note contents and returns it
 
@@ -49,7 +49,7 @@ def read_all_notes() -> str:
     return note_message or "No Note yet!"
 
 
-@mcp.resource("note://latest")
+@mcp.tool()  #resource("note://latest")
 def read_latest_notes() -> str:
     """This function reads the lastest note contents and returns it
 

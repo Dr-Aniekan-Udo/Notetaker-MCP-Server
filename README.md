@@ -8,8 +8,8 @@
 | **Components**  |**Type** |**Description** |
 |-----------------|---------|-----------------|
 |**add_note** | Tools | Add notes contents to your notebook. Content could be generated from claude|
-|**read_all_notes** | Resources | Reads all the from your your notebook|
-|**read_latest_notes** | Resources | Reads the latest note added to your notebook|
+|**read_all_notes** | Tools | Reads all the from your your notebook|
+|**read_latest_notes** | Tools | Reads the latest note added to your notebook|
 |**read_indexed_notes** | Tools | Reads the note at the specified index to your notebook|
 |**note_summary_prompt** | Prompt | Prompt the LLM to return your the summary of your note|
 |**search_note_prompt** | Prompt | Prompt the LLm to search your note for information and returns the content and index of the note with the information|
