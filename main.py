@@ -63,7 +63,7 @@ def read_latest_notes() -> str:
     return note_message[-1].strip() if note_message else "No Note yet!"
 
 
-@mcp.resource("note://{index}")
+@mcp.tool()
 def read_indexed_notes(index: int) -> str:
     """This function reads note by indicated index. Least accepted index is 1.
 
