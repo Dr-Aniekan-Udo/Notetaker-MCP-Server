@@ -1,6 +1,7 @@
 # server.py
 from mcp.server.fastmcp import FastMCP
 import os
+import re
 
 # Create an MCP server
 mcp = FastMCP("Notetaker Assistant")
@@ -16,6 +17,9 @@ def check_file():
             file.write('')
 
 
+def single_notes(notebook):
+    return re.split("--newnote--", notebook)
+
 # Add a tool to add note
 @mcp.tool()
 def add_note(message: str) -> str:
@@ -30,7 +34,7 @@ def add_note(message: str) -> str:
     check_file()
     with open(NOTEBOOK, 'a') as file:
         # create the file
-        file.write(message + "\n")
+        file.write("\n\n--newnote--\n\n" + message)
         return "Note successfully saved!"
     return "Note not saved!"
 
@@ -59,7 +63,8 @@ def read_latest_notes() -> str:
     check_file()
     with open(NOTEBOOK, 'r') as file:
         # read the note and extract the last line in the notes
-        note_message = file.readlines()
+        note_message = file.read().strip()
+        note_message = single_notes(note_message)
     return note_message[-1].strip() if note_message else "No Note yet!"
 
 
@@ -73,11 +78,11 @@ def read_indexed_notes(index: int) -> str:
     check_file()  # Ensure the file exists or is created
     with open(NOTEBOOK, 'r') as file:
         # Filter out empty lines
-        note_message = [line.strip() for line in file.readlines() if line.strip()]
+        note_message = [line.strip() for line in single_notes(file.read()) if line.strip()]
         if not note_message:
             return "No note yet!"
         if len(note_message) < abs(index):  # Ensure the index is within bounds
-            return f"You have {len(note_message)} notes currently-- No note {index} to return!"
+            return f"You have {len(note_message)} notes currently-- No note at index {index} to return!"
         return note_message[abs(index) - 1].strip()
 
 @mcp.prompt()
@@ -105,7 +110,7 @@ def search_note_prompt(message: str) -> str:
     """
     check_file()
     with open(NOTEBOOK, 'r') as file:
-        note_message = [line.strip() for line in file.readlines() if line.strip()]
+        note_message = [line.strip() for line in single_notes(file.read()) if line.strip()]
         if not note_message:
             return "No information is saved in note yet!"
         
